@@ -7,23 +7,24 @@ const __ = new pulumi.Config();
 
 
 // Now allocate an AKS cluster.
-export const k8sCluster = new azure.containerservice.KubernetesCluster(`${__.require('cluster_name')}-${__.require('type')}`, {
+export const k8sCluster = new azure.containerservice.KubernetesCluster(`${__.require('cluster_name')}`, {
     resourceGroupName: config.resourceGroup.name,
     location: __.require('location'),
 
     agentPoolProfiles: [{
-        name: `${__.require('type')}node`,
+        name: `${__.require('cluster_name')}`,
         count: +__.require('node_number'),
         vmSize: __.require('node_size'),
     
 
     }],
-    dnsPrefix: `${__.require('type')}-${__.require('cluster_name')}-dns`,
+    dnsPrefix: `${__.require('cluster_name')}-dns`,
     linuxProfile: {
         adminUsername: __.require('username'),
         sshKey: {
             keyData: config.sshPublicKey,
         },
+        
     },
 
     servicePrincipal: {
@@ -32,7 +33,9 @@ export const k8sCluster = new azure.containerservice.KubernetesCluster(`${__.req
     },
 });
 
-// Expose a K8s provider instance using our custom cluster instance.
-export const k8sProvider = new k8s.Provider(`aks-${__.require('type')}-provider`, {
-    kubeconfig: k8sCluster.kubeConfigRaw,
-});
+
+// // Expose a K8s provider instance using our custom cluster instance.
+// export const k8sProvider = new k8s.Provider(`aks-${__.require('cluster_name')}-provider`, {
+//     // kubeconfig: k8sCluster.kubeConfigRaw,
+//     kubeconfig: __.require('kubeConfig')
+// });

@@ -1,7 +1,7 @@
 // Copyright 2016-2019, Pulumi Corporation.  All rights reserved.
 
 import * as helm from "@pulumi/kubernetes/helm";
-import { k8sCluster, k8sProvider } from "./cluster";
+import { k8sCluster } from "./cluster";
 
 
 // if(__config.services.length>0){
@@ -17,9 +17,14 @@ import { k8sCluster, k8sProvider } from "./cluster";
 //     { providers: { kubernetes: k8sProvider } },
 // );
 //     }}
-export let kubeConfig = k8sCluster.kubeConfigRaw;
-export let provider = k8sProvider;
-export let dns = k8sCluster.dnsPrefix;
+// const service  = new helm.v2.Chart("jenkins",{
+//     repo:"stable",
+//     chart:"jenkins"
+// },{providers:{ kubernetes: k8sProvider}});
+
+export let kubeConfig = k8sCluster.kubeConfigRaw || '';
+// export let provider = k8sProvider;
+
 // export let serviceIP = apache
 //     .getResourceProperty("v1/Service", "apache-apache","status")
 //     .apply(status => status.loadBalancer.ingress[0].ip);
