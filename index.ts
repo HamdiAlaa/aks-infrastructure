@@ -22,7 +22,7 @@ import { k8sCluster } from "./cluster";
 //     chart:"jenkins"
 // },{providers:{ kubernetes: k8sProvider}});
 
-export let kubeConfig = k8sCluster.kubeConfigRaw || '';
+export let kubeConfig = k8sCluster.kubeConfigRaw || 'Empty';
 // export let provider = k8sProvider;
 
 // export let serviceIP = apache
